@@ -4,9 +4,21 @@ COPY . /app
 
 WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install -y zip unzip libzip-dev default-mysql-client \
-    && docker-php-ext-install zip pdo_mysql
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Install composer for the application dependencies
 RUN curl -sS https://getcomposer.org/installer | php \

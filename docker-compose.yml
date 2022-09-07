@@ -1,17 +1,6 @@
 version: '3.8'
 
 services:
-    database:
-        build:
-            context: .docker/mysql
-        ports:
-            - 3306:3306
-        restart: unless-stopped
-        env_file:
-            - .docker/db.env
-        volumes:
-            - ./_data/mysql:/var/lib/mysql
-
     php-fpm:
         build:
             dockerfile: .docker/php/Dockerfile
@@ -24,6 +13,16 @@ services:
             - 9000
         volumes:
             - ./:/app
+    database:
+        build:
+            context: .docker/mysql
+        ports:
+            - 3306:3306
+        restart: unless-stopped
+        env_file:
+            - .docker/db.env
+        volumes:
+            - ./_data/mysql:/var/lib/mysql
 
     nginx:
         build:

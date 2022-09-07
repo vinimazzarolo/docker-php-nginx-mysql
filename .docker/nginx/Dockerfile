@@ -13,6 +13,3 @@ RUN apt-get update \
 COPY .docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /app
-
-# copy public directory from the php-fpm docker image loaded here as base
-COPY --from=base /app/public /app/public

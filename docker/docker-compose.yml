@@ -3,37 +3,37 @@ version: '3.8'
 services:
     php-fpm:
         build:
-            dockerfile: .docker/php/Dockerfile
+            dockerfile: ./php/Dockerfile
             context: .
         image: php-fpm
         restart: unless-stopped
         env_file:
-            - .docker/db.env
+            - db.env
         ports:
             - ${PHP_FPM_PORT}
         extra_hosts:
             - host.docker.internal:host-gateway
         volumes:
-            - ./:/app
-            - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ../:/app
+            - ./php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     database:
         build:
-            context: .docker/mysql
+            context: mysql
         ports:
             - ${DB_PORT}:3306
         restart: unless-stopped
         env_file:
-            - .docker/db.env
+            - db.env
         volumes:
             - ./_data/mysql:/var/lib/mysql
 
     nginx:
         build:
-            dockerfile: .docker/nginx/Dockerfile
+            dockerfile: ./nginx/Dockerfile
             context: .
         ports:
             - ${WEBSERVER_PORT}:80
         restart: unless-stopped
         volumes:
-            - ./:/app
-            - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ../:/app
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf

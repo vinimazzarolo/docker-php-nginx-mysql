@@ -1,4 +1,4 @@
 /vendor
-/_data
+/docker/_data
 
 .env

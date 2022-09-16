@@ -1,7 +1,7 @@
 .PHONY: up clean
 
 up:
-	composer install -noa
+	cd .. && composer install -noa
 	docker compose up -d --build
 
 clean:
